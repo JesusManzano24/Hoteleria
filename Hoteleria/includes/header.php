@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../css/anfitrion.css">
   <link rel="stylesheet" href="../css/formulario_hotel.css">
   <link rel="stylesheet" href="../css/reservas.css">
+  <link rel="stylesheet" href="../css/auth.css">
 </head>
 <body>
 <header>
