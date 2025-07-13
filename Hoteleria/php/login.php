@@ -1,5 +1,5 @@
 <form method="POST" action="../controllers/AuthController.php">
-  <h2>Iniciar sesión</h2>
+  <h2>Inicia sesión</h2>
   <label>Email:</label>
   <input type="email" name="email" required>
 

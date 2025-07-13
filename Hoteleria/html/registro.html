@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Registro</title>
+  <link rel="stylesheet" href="../css/styles.css" />
+</head>
+<body>
+  <header>
+    <img src="assets/logo.png" alt="Logo de LuminusCreaCode" width="100" />
+    <h2>Crear una cuenta</h2>
+  </header>
+  <form>
+    <label>Tipo de usuario:</label>
+    <select name="tipo">
+      <option value="cliente">Cliente</option>
+      <option value="anfitrion">Anfitrión</option>
+    </select><br><br>
+
+    <label>Nombre:</label>
+    <input type="text" name="nombre" required /><br>
+
+    <label>Correo:</label>
+    <input type="email" name="correo" required /><br>
+
+    <label>Contraseña:</label>
+    <input type="password" name="password" required /><br>
+
+    <button type="submit">Registrarse</button>
+  </form>
+</body>
+</html>
