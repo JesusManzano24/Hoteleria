@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Mi Perfil</title>
-  <link rel="stylesheet" href="../css/styles.css" >
+  <title>Contacto</title>
+  <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
   <header>
@@ -18,17 +18,25 @@
   </header>
 
   <main>
+    <h2>Contáctanos</h2>
+    <form>
+      <label>Nombre:</label>
+      <input type="text" name="nombre" required /><br>
+
+      <label>Correo electrónico:</label>
+      <input type="email" name="correo" required /><br>
+
+      <label>Mensaje:</label>
+      <textarea name="mensaje" rows="5" required></textarea><br>
+
+      <button type="submit">Enviar mensaje</button>
+    </form>
+
     <section>
-      <h2>Perfil de Usuario</h2>
-      <p><strong>Nombre:</strong> Juan Pérez</p>
-      <p><strong>Correo:</strong> juan@example.com</p>
-      <p><strong>Reservas activas:</strong> 2</p>
-
-      <ul>
-        <li><a href="reserva_detalle.html">Ver reserva: Hotel Playa Coral (18–20 agosto)</a></li>
-      </ul>
-
-      <button>Editar perfil</button>
+      <h3>O también puedes escribirnos a:</h3>
+      <p><strong>Email:</strong> soporte@luminuscreacode.com</p>
+      <p><strong>Teléfono:</strong> +52 999 123 4567</p>
+      <p><strong>Dirección:</strong> Mérida, Yucatán, México</p>
     </section>
   </main>
 </body>

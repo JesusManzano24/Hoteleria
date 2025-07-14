@@ -2,23 +2,40 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Explorar Hoteles</title>
+  <title>Hoteles disponibles</title>
   <link rel="stylesheet" href="../css/styles.css" />
 </head>
 <body>
   <header>
     <img src="assets/logo.png" alt="Logo de LuminusCreaCode" width="100" />
-    <h2>Alojamientos disponibles</h2>
+    <h1>Bienvenido a LuminusCrea Booking</h1>
+    <nav>
+      <a href="hoteles.html">Explorar</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="registro.html">Registrarse</a>
+      <a href="login.html">Iniciar Sesión</a>
+    </nav>
   </header>
-  
-  <input type="text" placeholder="Buscar por ubicación..." />
-  <div class="listado">
-    <article>
-      <h3>Hotel Playa Coral</h3>
-      <p>Desde $1,200 MXN por noche</p>
-      <a href="detalle.html?id=1">Ver más</a>
-    </article>
-    <!-- Puedes agregar más hoteles aquí -->
-  </div>
+
+  <main>
+    <section class="buscador">
+      <input type="text" placeholder="Buscar por ubicación..." />
+    </section>
+
+    <section class="listado">
+      <article>
+        <h3>Hotel Playa Coral</h3>
+        <p>Desde $1,200 MXN por noche</p>
+        <a href="detalle.html?id=1">Ver más</a>
+      </article>
+      <!-- Puedes agregar más hoteles aquí -->
+    </section>
+  </main>
 </body>
+<footer style="margin-top: 40px; padding: 20px; background-color: #0f1c2f; color: #fff; text-align: center; border-radius: 8px;">
+  <p><strong>O también puedes escribirnos a:</strong></p>
+  <p>Email: <a href="mailto:soporte@luminuscreacode.com" style="color: #00b3ff;">soporte@luminuscreacode.com</a></p>
+  <p>Teléfono: <a href="tel:+529991410909" style="color: #00b3ff;">+52 9991410909</a></p>
+  <p>Dirección: Mérida, Yucatán, México</p>
+</footer>
 </html>
