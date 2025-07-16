@@ -1,0 +1,11 @@
+#btnPagar {
+    margin-left: 200px;
+  background-color: #00b3ff;
+  color: #fff; /* Esto hace que el texto sea blanco */
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-decoration: none; /* Evita el subrayado */
+  display: inline-block;
+}

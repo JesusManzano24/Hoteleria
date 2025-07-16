@@ -7,6 +7,7 @@
 <body>
   <header>
     <img src="../img/logoprueba.png" alt="Logo de LuminusCreaCode" width="100" />
+    <link rel="stylesheet" href="../css/crudusuarios.css">
     <link rel="stylesheet" href="../css/styles.css" >
     <h1>Bienvenido a LuminusCrea Booking</h1>
     <nav>
@@ -17,22 +18,26 @@
   <main>
     <h2>Gestión de Usuarios</h2>
 
-    <form>
-      <label>Nombre:</label>
-      <input type="text" required />
+  <button id="btnAgregarUsuario" onclick="mostrarFormulario()">Agregar Usuario</button>
 
-      <label>Correo:</label>
-      <input type="email" required />
+<div id="formularioUsuario" style="display: none; margin-top: 20px;">
+  <form>
+    <label>Nombre:</label>
+    <input type="text" required />
 
-      <label>Rol:</label>
-      <select>
-        <option value="cliente">Cliente</option>
-        <option value="anfitrion">Anfitrión</option>
-        <option value="admin">Administrador</option>
-      </select>
+    <label>Correo:</label>
+    <input type="email" required />
 
-      <button>Crear usuario</button>
-    </form>
+    <label>Rol:</label>
+    <select>
+      <option value="cliente">Cliente</option>
+      <option value="anfitrion">Anfitrión</option>
+      <option value="admin">Administrador</option>
+    </select>
+
+    <button>Crear usuario</button>
+  </form>
+</div>
 
     <section>
       <h3>Usuarios registrados</h3>
@@ -49,5 +54,6 @@
     <p>Teléfono: <a href="tel:+529991410909" style="color: #00b3ff;">+52 9991410909</a></p>
     <p>Dirección: Mérida, Yucatán, México</p>
   </footer>
+  <script src="../js/formuilariocrudusuarios.js"></script>
 </body>
 </html>
