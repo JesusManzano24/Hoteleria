@@ -14,27 +14,34 @@
   <main>
     <section>
       <p><strong>Hotel:</strong> Playa Coral</p>
-      <p><strong>Fechas:</strong> 18-20 agosto</p>
+      <p><strong>Fechas:</strong> 18–20 agosto</p>
       <p><strong>Total:</strong> $2,400 MXN</p>
 
-      <form>
-        <label>Método de pago:</label>
-        <select>
-          <option>Tarjeta</option>
-          <option>Transferencia</option>
-          <option>Oxxo Pay</option>
-        </select><br><br>
-        <button id="btnPagar">
-  <a href="gracias.html" style="color: #fff; text-decoration: none;">Pagar ahora</a>
-</button>
+<form>
+  <label>Método de pago:</label>
+  <select id="metodoPago">
+    <option value="">Selecciona un método</option>
+    <option value="Tarjeta">Tarjeta</option>
+    <option value="Transferencia">Transferencia</option>
+    <option value="Oxxo Pay">Oxxo Pay</option>
+  </select><br><br>
+
+  <!-- Contenedor dinámico que será llenado desde el script -->
+  <div id="infoPago"></div>
+
+  <a href="gracias.html" id="btnPagar">Pagar ahora</a>
+</form>
       </form>
     </section>
   </main>
+
+  <footer style="margin-top: 40px; padding: 20px; background-color: #0f1c2f; color: #fff; text-align: center; border-radius: 8px;">
+    <p><strong>O también puedes escribirnos a:</strong></p>
+    <p>Email: <a href="mailto:soporte@luminuscreacode.com" style="color: #00b3ff;">soporte@luminuscreacode.com</a></p>
+    <p>Teléfono: <a href="tel:+529991410909" style="color: #00b3ff;">+52 9991410909</a></p>
+    <p>Dirección: Mérida, Yucatán, México</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="../js/metodopago.js"></script>
 </body>
-<footer style="margin-top: 40px; padding: 20px; background-color: #0f1c2f; color: #fff; text-align: center; border-radius: 8px;">
-  <p><strong>O también puedes escribirnos a:</strong></p>
-  <p>Email: <a href="mailto:soporte@luminuscreacode.com" style="color: #00b3ff;">soporte@luminuscreacode.com</a></p>
-  <p>Teléfono: <a href="tel:+529991410909" style="color: #00b3ff;">+52 9991410909</a></p>
-  <p>Dirección: Mérida, Yucatán, México</p>
-</footer>
 </html>

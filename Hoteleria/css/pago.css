@@ -9,3 +9,12 @@
   text-decoration: none; /* Evita el subrayado */
   display: inline-block;
 }
+#comprobanteQR h3 {
+  color: #0f1c2f;
+  margin-bottom: 10px;
+}
+
+#comprobanteQR p {
+  font-size: 15px;
+  margin: 4px 0;
+}
