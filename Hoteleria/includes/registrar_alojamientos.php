@@ -1,30 +1,47 @@
 <?php
-include("conexion.php");
+// iniciar sesión si vas a usar $_SESSION['id_usuario']
+session_start();
 
-$id_usuario = $_POST['id_usuario'];
-$nombre = $_POST['nombre'];
-$descripcion = $_POST['descripcion'];
-$id_tipo = $_POST['id_tipo_alojamiento'];
-$id_estado = $_POST['id_estado'];
-$direccion = $_POST['direccion'];
-$capacidad = $_POST['capacidad'];
-$precio = $_POST['precio'];
-$latitud = $_POST['latitud'];
-$longitud = $_POST['longitud'];
+// conexión a la BD (ajusta la ruta si usas carpetas)
+include("../includes/conexion.php");
 
-// Insertar alojamiento
-$sql = "INSERT INTO alojamientos (id_usuario, nombre, id_tipo_alojamiento, direccion, descripcion, precio, capacidad, latitud, longitud, id_estado)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+// validación básica para evitar errores si falta algo
+if (
+  isset($_POST['id_usuario'], $_POST['nombre'], $_POST['descripcion'], $_POST['id_tipo_alojamiento'],
+        $_POST['id_estado'], $_POST['direccion'], $_POST['capacidad'],
+        $_POST['precio'], $_POST['latitud'], $_POST['longitud'])
+) {
+  // recibir datos
+  $id_usuario = intval($_POST['id_usuario']);
+  $nombre = trim($_POST['nombre']);
+  $descripcion = trim($_POST['descripcion']);
+  $id_tipo = intval($_POST['id_tipo_alojamiento']);
+  $id_estado = intval($_POST['id_estado']);
+  $direccion = trim($_POST['direccion']);
+  $capacidad = intval($_POST['capacidad']);
+  $precio = floatval($_POST['precio']);
+  $latitud = floatval($_POST['latitud']);
+  $longitud = floatval($_POST['longitud']);
 
-$stmt = $conn->prepare($sql);
-$stmt->bind_param("isisssddii", $id_usuario, $nombre, $id_tipo, $direccion, $descripcion, $precio, $capacidad, $latitud, $longitud, $id_estado);
+  // insertar alojamiento en la BD
+  $sql = "INSERT INTO alojamientos (id_usuario, nombre, id_tipo_alojamiento, direccion, descripcion, precio, capacidad, latitud, longitud, id_estado)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-if ($stmt->execute()) {
-  echo "Alojamiento registrado correctamente.";
+  $stmt = $conn->prepare($sql);
+  if ($stmt) {
+    $stmt->bind_param("isisssddii", $id_usuario, $nombre, $id_tipo, $direccion, $descripcion, $precio, $capacidad, $latitud, $longitud, $id_estado);
+    if ($stmt->execute()) {
+      echo "✅ Alojamiento registrado correctamente.";
+    } else {
+      echo "❌ Error al registrar: " . $stmt->error;
+    }
+    $stmt->close();
+  } else {
+    echo "❌ Error en la preparación: " . $conn->error;
+  }
+
+  $conn->close();
 } else {
-  echo "Error al registrar: " . $stmt->error;
+  echo "❌ Faltan campos obligatorios.";
 }
-
-$stmt->close();
-$conn->close();
 ?>

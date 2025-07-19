@@ -7,7 +7,7 @@
 </head>
 <body>
   <header>
-    <img src="../img/logoprueba.png" alt="Logo de LuminusCreaCode" width="100" />>
+    <img src="../img/logoprueba.png" alt="Logo de LuminusCreaCode" width="100" />
     <h1>Bienvenido a LuminusCrea Booking</h1>
     <nav>
       <a href="host.html">Volver al panel</a>
@@ -24,17 +24,24 @@
   <label>Descripción:</label>
   <textarea name="descripcion" rows="3" required></textarea>
 
-  <label>Tipo de alojamiento:</label>
-  <select name="id_tipo_alojamiento" required>
-    <option value="">Selecciona tipo</option>
-    <!-- Aquí se rellena dinámicamente con PHP -->
-  </select>
+ <!-- Tipo de alojamiento -->
+<label>Tipo de alojamiento:</label>
+<select name="id_tipo_alojamiento" required>
+  <option value="">Selecciona tipo</option>
+  <option value="1">Casa</option>
+  <option value="2">Hotel</option>
+  <option value="3">Hostal</option>
+  <option value="4">Departamento</option>
+</select>
 
-  <label>Estado del alojamiento:</label>
-  <select name="id_estado" required>
-    <option value="">Selecciona estado</option>
-    <!-- También relleno desde PHP -->
-  </select>
+<!-- Estado del alojamiento -->
+<label>Estado del alojamiento:</label>
+<select name="id_estado" required>
+  <option value="">Selecciona estado</option>
+  <option value="1">Disponible</option>
+  <option value="2">Ocupado</option>
+  <option value="3">En mantenimiento</option>
+</select>
 
   <label>Dirección completa:</label>
   <textarea name="direccion" rows="2" required></textarea>
