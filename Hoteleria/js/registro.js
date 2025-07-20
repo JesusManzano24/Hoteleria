@@ -29,26 +29,28 @@ document.getElementById('registroForm').addEventListener('submit', function(even
     body: formData
   })
   .then(response => {
-    // 1) Captura errores HTTP
+    // Captura errores HTTP
     if (!response.ok) {
       return response.text().then(txt => {
         throw new Error(`HTTP ${response.status} ${response.statusText}\n${txt}`);
       });
     }
+    // Leer como texto para depurar cualquier HTML extra o warnings
+    return response.text();
+  })
+  .then(txt => {
+    // Mostrar la respuesta cruda del servidor
+    console.log('>>> RESPUESTA RAW:', txt);
 
-    // 2) Verifica que venga JSON
-    const ct = response.headers.get('Content-Type') || '';
-    if (!ct.includes('application/json')) {
-      return response.text().then(txt => {
-        throw new Error('Respuesta inválida del servidor:\n' + txt);
-      });
+    // Intentar parsear a JSON
+    let data;
+    try {
+      data = JSON.parse(txt);
+    } catch (e) {
+      throw new Error('No es JSON válido: ' + e.message);
     }
 
-    // 3) Parsear JSON
-    return response.json();
-  })
-  .then(data => {
-    console.log('Respuesta del servidor:', data);
+    // Procesar objeto JSON
     if (data.success) {
       alert('Registro exitoso!');
       window.location.href = 'login.html';
@@ -96,4 +98,3 @@ adminLoginForm.addEventListener('submit', function(event) {
     alert('Hubo un error al iniciar sesión.');
   });
 });
-

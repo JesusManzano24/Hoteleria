@@ -7,7 +7,7 @@ error_reporting(E_ALL);
 // Fuerza respuesta JSON y charset
 header('Content-Type: application/json; charset=UTF-8');
 
-// Incluye la conexión (ajusta la ruta si está en otro directorio)
+// Incluye la conexión (ajusta la ruta si tu estructura es distinta)
 require __DIR__ . '/../includes/conexion.php';
 
 // Verifica la conexión ($conn proviene de conexion.php)
@@ -30,7 +30,7 @@ $origen         = $_POST['origen']         ?? '';
 $fecha_nac      = $_POST['fecha_nac']      ?? '';
 $fecha_registro = $_POST['fecha_registro'] ?? '';
 
-// Validación básica
+// Validación de campos obligatorios
 if (!$tipo || !$nombre || !$correo || !$password || !$telefono) {
     echo json_encode([
         'success' => false,
@@ -39,11 +39,37 @@ if (!$tipo || !$nombre || !$correo || !$password || !$telefono) {
     exit;
 }
 
+// Mapear el string 'tipo' a la columna id_rol de tu tabla usuarios
+switch ($tipo) {
+    case 'Admin':
+        $id_rol = 1;
+        break;
+    case 'anfitrion':
+        $id_rol = 2;
+        break;
+    default:
+    case 'Huesped':
+        $id_rol = 3; // Asumiendo que 3 es el rol de Huesped
+        break;
+        echo json_encode([
+            'success' => false,
+            'error'   => 'Tipo de usuario inválido'
+        ]);
+        exit;
+}
+
 // Encriptar contraseña
 $password_hash = hash('sha512', $password);
 
-// Verificar si el correo ya está registrado
-$stmt = $conn->prepare('SELECT id FROM usuarios WHERE correo = ?');
+// ——— Verificar si el correo ya está registrado ———
+$stmt = $conn->prepare('SELECT 1 FROM usuarios WHERE correo = ? LIMIT 1');
+if (!$stmt) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'SQL prepare falló (SELECT): ' . $conn->error
+    ]);
+    exit;
+}
 $stmt->bind_param('s', $correo);
 $stmt->execute();
 $stmt->store_result();
@@ -58,15 +84,22 @@ if ($stmt->num_rows > 0) {
 }
 $stmt->close();
 
-// Insertar nuevo usuario
+// ——— Insertar nuevo usuario ———
 $stmt = $conn->prepare(
     'INSERT INTO usuarios
-     (tipo, nombre, correo, telefono, contrasena, genero, origen, fecha_nac, fecha_registro)
-     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+       (id_rol, nombre, correo, telefono, contraseña, genero, origen, fecha_nac, fecha_registro)
+     VALUES (?,      ?,     ?,      ?,        ?,        ?,      ?,      ?,          ?)'
 );
+if (!$stmt) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'SQL prepare falló (INSERT): ' . $conn->error
+    ]);
+    exit;
+}
 $stmt->bind_param(
-    'sssssssss',
-    $tipo,
+    'issssssss',
+    $id_rol,
     $nombre,
     $correo,
     $telefono,
@@ -85,7 +118,6 @@ if (!$stmt->execute()) {
     $stmt->close();
     exit;
 }
-
 $stmt->close();
 
 // Respuesta de éxito
