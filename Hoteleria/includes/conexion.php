@@ -1,3 +1,4 @@
+-- a conexión a la base de datos aun por hacer  --
 <?php
 $host = "localhost";
 $usuario = "jesus";
