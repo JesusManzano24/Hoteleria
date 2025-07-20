@@ -1,9 +1,8 @@
--- a conexión a la base de datos aun por hacer  --
 <?php
-$host = "localhost";
-$usuario = "jesus";
-$contrasena = "";
-$basedatos = "hoteleria";
+$host      = 'localhost';
+$usuario   = 'root';
+$contrasena= '';
+$basedatos = 'hoteleria';
 
 $conn = new mysqli($host, $usuario, $contrasena, $basedatos);
 

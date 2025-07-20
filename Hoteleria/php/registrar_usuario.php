@@ -1,65 +1,95 @@
 <?php
-session_start();
-include("../includes/conexion.php");
+// Mostrar errores en pantalla (solo para depuración)
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-header('Content-Type: application/json');
+// Fuerza respuesta JSON y charset
+header('Content-Type: application/json; charset=UTF-8');
 
-// Verificar que los datos necesarios estén presentes
-if (
-    !isset($_POST['tipo']) ||
-    !isset($_POST['nombre']) ||
-    !isset($_POST['correo']) ||
-    !isset($_POST['password']) ||
-    !isset($_POST['telefono']) ||
-    !isset($_FILES['foto_perfil']) ||  // Asegúrate de validar si el archivo fue enviado
-    !isset($_POST['genero']) ||
-    !isset($_POST['origen']) ||
-    !isset($_POST['fecha_nac'])
-) {
-    echo json_encode(['error' => 'Faltan datos para completar el registro']);
+// Incluye la conexión (ajusta la ruta si está en otro directorio)
+require __DIR__ . '/../includes/conexion.php';
+
+// Verifica la conexión ($conn proviene de conexion.php)
+if ($conn->connect_error) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Error de conexión: ' . $conn->connect_error
+    ]);
     exit;
 }
 
-$tipo_usuario = $_POST['tipo'];
-$nombre = $_POST['nombre'];
-$correo = $_POST['correo'];
-$password = password_hash($_POST['password'], PASSWORD_BCRYPT);
-$telefono = $_POST['telefono'];
-$foto_perfil = $_FILES['foto_perfil']['name'];  // Foto de perfil
-$genero = $_POST['genero'];
-$origen = $_POST['origen'];
-$fecha_nac = $_POST['fecha_nac'];
-$fecha_registro = date('Y-m-d');  // Se maneja la fecha desde el servidor
+// Mapeo de campos (deben coincidir con los name= de tu formulario)
+$tipo           = $_POST['tipo']           ?? '';
+$nombre         = $_POST['nombre']         ?? '';
+$correo         = $_POST['correo']         ?? '';
+$password       = $_POST['password']       ?? '';
+$telefono       = $_POST['telefono']       ?? '';
+$genero         = $_POST['genero']         ?? '';
+$origen         = $_POST['origen']         ?? '';
+$fecha_nac      = $_POST['fecha_nac']      ?? '';
+$fecha_registro = $_POST['fecha_registro'] ?? '';
 
-// Guardar la foto de perfil en una carpeta
-$target_dir = "../uploads/fotos_perfil/";
-$target_file = $target_dir . basename($_FILES["foto_perfil"]["name"]);
-
-// Verificar si la imagen se sube correctamente
-if (move_uploaded_file($_FILES["foto_perfil"]["tmp_name"], $target_file)) {
-    // Determinar el id_rol según el tipo de usuario
-    $id_rol = ($tipo_usuario == 'cliente') ? 1 : 2;
-
-    // Insertar los datos en la base de datos
-    $sql = "INSERT INTO usuarios (id_rol, nombre, correo, password, telefono, foto_perfil, genero, origen, fecha_nac, fecha_registro)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-
-    $stmt = $conn->prepare($sql);
-    if ($stmt) {
-        $stmt->bind_param("isssssssss", $id_rol, $nombre, $correo, $password, $telefono, $foto_perfil, $genero, $origen, $fecha_nac, $fecha_registro);
-
-        if ($stmt->execute()) {
-            echo json_encode(['success' => true]);
-        } else {
-            echo json_encode(['error' => 'Error al registrar el usuario: ' . $stmt->error]);
-        }
-        $stmt->close();
-    } else {
-        echo json_encode(['error' => 'Error en la preparación de la consulta']);
-    }
-} else {
-    echo json_encode(['error' => 'Error al subir la foto de perfil']);
+// Validación básica
+if (!$tipo || !$nombre || !$correo || !$password || !$telefono) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Faltan campos obligatorios'
+    ]);
+    exit;
 }
 
-$conn->close();
-?>
+// Encriptar contraseña
+$password_hash = hash('sha512', $password);
+
+// Verificar si el correo ya está registrado
+$stmt = $conn->prepare('SELECT id FROM usuarios WHERE correo = ?');
+$stmt->bind_param('s', $correo);
+$stmt->execute();
+$stmt->store_result();
+
+if ($stmt->num_rows > 0) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Este correo ya está registrado'
+    ]);
+    $stmt->close();
+    exit;
+}
+$stmt->close();
+
+// Insertar nuevo usuario
+$stmt = $conn->prepare(
+    'INSERT INTO usuarios
+     (tipo, nombre, correo, telefono, contrasena, genero, origen, fecha_nac, fecha_registro)
+     VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
+);
+$stmt->bind_param(
+    'sssssssss',
+    $tipo,
+    $nombre,
+    $correo,
+    $telefono,
+    $password_hash,
+    $genero,
+    $origen,
+    $fecha_nac,
+    $fecha_registro
+);
+
+if (!$stmt->execute()) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'Error al registrar: ' . $stmt->error
+    ]);
+    $stmt->close();
+    exit;
+}
+
+$stmt->close();
+
+// Respuesta de éxito
+echo json_encode(['success' => true]);
+exit;
+
+
