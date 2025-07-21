@@ -1,24 +1,29 @@
-// Variables
-let clickCount = 0; // Contador de clics
-const logo = document.getElementById('logo');
-const registroFormContainer = document.getElementById('registroFormContainer');
-const adminLoginFormContainer = document.getElementById('adminLoginFormContainer');
-const adminLoginForm = document.getElementById('adminLoginForm');
+// registro.js
 
-// Evento de clic en el logo
+// ——————————————————————————————————————————————
+// 1) Variables y selects del DOM
+let clickCount = 0;
+const logo                   = document.getElementById('logo');
+const registroFormContainer  = document.getElementById('registroFormContainer');
+const adminLoginFormContainer= document.getElementById('adminLoginFormContainer');
+const registroForm           = document.getElementById('registroForm');
+const adminLoginForm         = document.getElementById('adminLoginForm');
+
+// ——————————————————————————————————————————————
+// 2) Mostrar el formulario de admin al hacer 3 clics en el logo
 logo.addEventListener('click', () => {
-  clickCount++;
-  if (clickCount === 3) {
-    registroFormContainer.style.display = 'none';
+  if (++clickCount === 3) {
+    registroFormContainer.style.display   = 'none';
     adminLoginFormContainer.style.display = 'block';
   }
 });
 
-// Envío del formulario de registro
-document.getElementById('registroForm').addEventListener('submit', function(event) {
+// ——————————————————————————————————————————————
+// 3) Envío del formulario de registro (tu código original intacto)
+registroForm.addEventListener('submit', function(event) {
   event.preventDefault();
 
-  // Establecer la fecha de registro
+  // Fecha de registro al día
   document.getElementById('fecha_registro').value =
     new Date().toISOString().split('T')[0];
 
@@ -28,19 +33,16 @@ document.getElementById('registroForm').addEventListener('submit', function(even
     method: 'POST',
     body: formData
   })
-  .then(response => {
-    // Captura errores HTTP
-    if (!response.ok) {
-      return response.text().then(txt => {
-        throw new Error(`HTTP ${response.status} ${response.statusText}\n${txt}`);
-      });
+  .then(res => {
+    if (!res.ok) {
+      // HTTP 500, 404, etc.
+      return res.text().then(txt => { throw new Error(`HTTP ${res.status}\n${txt}`); });
     }
-    // Leer como texto para depurar cualquier HTML extra o warnings
-    return response.text();
+    return res.text();
   })
   .then(txt => {
-    // Mostrar la respuesta cruda del servidor
-    console.log('>>> RESPUESTA RAW:', txt);
+    // Ver qué llega realmente del servidor
+    console.log('>>> RESPUESTA RAW registro:', txt);
 
     // Intentar parsear a JSON
     let data;
@@ -50,7 +52,7 @@ document.getElementById('registroForm').addEventListener('submit', function(even
       throw new Error('No es JSON válido: ' + e.message);
     }
 
-    // Procesar objeto JSON
+    // Tu lógica de éxito/error
     if (data.success) {
       alert('Registro exitoso!');
       window.location.href = 'login.html';
@@ -58,43 +60,54 @@ document.getElementById('registroForm').addEventListener('submit', function(even
       alert('Error en el registro: ' + data.error);
     }
   })
-  .catch(error => {
-    console.error('Error al enviar los datos:', error);
-    alert('Hubo un error al registrar. Revisa la consola para más detalles.');
+  .catch(err => {
+    console.error('Error registro:', err);
+    alert('Hubo un error al registrar. Revisa la consola.');
   });
 });
 
-// Evento de inicio de sesión del administrador
+// ——————————————————————————————————————————————
+// 4) Envío del formulario de login de administrador (rol = 1)
 adminLoginForm.addEventListener('submit', function(event) {
   event.preventDefault();
 
-  const correo = document.getElementById('adminCorreo').value;
+  const correo   = document.getElementById('adminCorreo').value.trim();
   const password = document.getElementById('adminPassword').value;
+
+  if (!correo || !password) {
+    alert('Debes ingresar correo y contraseña de administrador.');
+    return;
+  }
 
   fetch('../php/login_admin.php', {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
+    headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ correo, password })
   })
-  .then(response => {
-    if (!response.ok) {
-      return response.text().then(txt => {
-        throw new Error(`HTTP ${response.status} ${response.statusText}\n${txt}`);
-      });
+  .then(res => {
+    if (!res.ok) {
+      return res.text().then(txt => { throw new Error(`HTTP ${res.status}\n${txt}`); });
     }
-    return response.json();
+    return res.text();
   })
-  .then(data => {
+  .then(txt => {
+    console.log('>>> RAW login_admin:', txt);
+
+    let data;
+    try {
+      data = JSON.parse(txt);
+    } catch (e) {
+      throw new Error('Respuesta no es JSON válido: ' + e.message);
+    }
+
     if (data.success) {
       window.location.href = 'admin.html';
     } else {
-      alert('Credenciales incorrectas');
+      alert(data.error || 'Credenciales incorrectas');
     }
   })
-  .catch(error => {
-    console.error('Error al verificar las credenciales:', error);
-    alert('Hubo un error al iniciar sesión.');
+  .catch(err => {
+    console.error('Error login_admin:', err);
+    alert('Hubo un error al iniciar sesión. Revisa la consola.');
   });
 });
