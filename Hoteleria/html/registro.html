@@ -28,11 +28,12 @@
       <h2>Crear una cuenta</h2>
       <form id="registroForm">
         <label for="tipo_usuario">Tipo de usuario:</label>
-        <select name="tipo" id="tipo_usuario">
-          <option value="">Selecciona el Tipo de usuario</option>
-          <option value="anfitrion">Anfitrión</option>
-          <option value="Huesped">Huesped</option>
-        </select>
+       <select name="tipo" id="tipo_usuario">
+  <option value="">Selecciona el Tipo de usuario</option>
+ <option id="adminOption" value="Admin" style="display: none;">Administrador</option>
+  <option value="anfitrion">Anfitrión</option>
+  <option value="Huesped">Huesped</option>
+</select>
         <br /><br />
 
         <label for="nombre">Nombre:</label>
@@ -105,7 +106,7 @@
           required
         /><br /><br />
 
-        <button type="submit">Iniciar sesión</button> <button type="button" id="RegisAdmin">Registrar Aministrador</button>
+        <button type="submit">Iniciar sesión</button> <button type="button" id="RegisAdmin">Registrar Administrador</button>
       </form>
     </div>
   </main>
