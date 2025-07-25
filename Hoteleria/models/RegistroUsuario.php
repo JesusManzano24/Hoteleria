@@ -1,25 +1,30 @@
 <?php
-require_once __DIR__ . '/../controllers/RegistroController.php';
+require_once dirname(__DIR__) . '/ws/conexion.php';
 
-class RegistroUsuario {
-    public static function crear($datos) {
-        $conn = conectar(); // asumes que esta función retorna $conn
+class RegistroUsuario
+{
+    public static function crear(array $data): array
+    {
+        $conn = conectar();
 
-        // Mapeo seguro
-        $tipo           = $datos['tipo']           ?? '';
-        $nombre         = $datos['nombre']         ?? '';
-        $correo         = $datos['correo']         ?? '';
-        $password       = $datos['password']       ?? '';
-        $telefono       = $datos['telefono']       ?? '';
-        $genero         = $datos['genero']         ?? '';
-        $origen         = $datos['origen']         ?? '';
-        $fecha_nac      = $datos['fecha_nac']      ?? '';
-        $fecha_registro = $datos['fecha_registro'] ?? '';
+        // Mapeo seguro usando $data en lugar de $datos
+        $tipo           = $data['tipo']           ?? '';
+        $nombre         = $data['nombre']         ?? '';
+        $correo         = $data['correo']         ?? '';
+        $password       = $data['password']       ?? '';
+        $telefono       = $data['telefono']       ?? '';
+        $genero         = $data['genero']         ?? '';
+        $origen         = $data['origen']         ?? '';
+        $fecha_nac      = $data['fecha_nac']      ?? '';
+        $fecha_registro = $data['fecha_registro'] ?? '';
 
         // Validación básica
         if (!$tipo || !$nombre || !$correo || !$password || !$telefono) {
             return ['success' => false, 'error' => 'Faltan campos obligatorios'];
         }
+
+        // … el resto de tu lógica (roles, hash, verificación y INSERT)
+    
 
         switch ($tipo) {
             case 'Admin':     $id_rol = 1; break;

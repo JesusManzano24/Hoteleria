@@ -7,5 +7,6 @@ error_reporting(E_ALL);
 // Llamar al controlador
 require_once __DIR__ . '/../controller/RegistroController.php';
 RegistroController::registrar();
+?>
 
 
