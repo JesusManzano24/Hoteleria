@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../models/Admin.php';
+// controller/LoginAdminController.php
+require_once  '../models/Admin.php';
 
 class LoginAdminController
 {

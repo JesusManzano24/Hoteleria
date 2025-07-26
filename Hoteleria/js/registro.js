@@ -1,4 +1,5 @@
 // registro.js - VERSIÓN FINAL CORREGIDA Y OPTIMIZADA
+// js/registro.js
     document.addEventListener('DOMContentLoaded', function() {
       // ——————————————————————————————————————————————
       // 1) Variables y selects del DOM
@@ -102,7 +103,7 @@
 
           const formData = new FormData(this);
 
-          fetch('../view/Registro/login_admin.php', {
+          fetch('../Registro/login_admin.php', {
             method: 'POST',
             body: formData
           })
@@ -150,7 +151,7 @@
             return;
           }
 
-          fetch('../view/Registro/login_admin.php', {
+          fetch('../Registro/login_admin.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

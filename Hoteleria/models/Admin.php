@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__ . '/../ws/conexion.php';
+// models/Admin.php
+require_once  '/../ws/conexion.php';
 
 class Admin
 {
