@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Iniciar Sesión</title>
+  <link rel="stylesheet" href="../../css/styles.css" />
+  <!-- favicon para no recibir 404 -->
+  <link rel="icon" href="../../img/logoprueba.png" type="image/x-icon" />
+</head>
+<body>
+  <header>
+    <img
+      src="../img/logoprueba.png"
+      alt="Logo de LuminusCreaCode"
+      width="100"
+    />
+    <h1>Bienvenido a LuminusCrea Booking</h1>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="alojamientos.html">Explorar</a>
+      <a href="contacto.html">Contacto</a>
+      <a href="registro.html">Registrarse</a>
+      <a href="../view/Login/login.html">Iniciar Sesión</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Iniciar Sesión</h2>
+
+    <!-- Aquí se mostrará el mensaje de error si viene en la URL -->
+    <div id="errorMsg" style="color:red; margin-bottom:1rem;"></div>
+
+    <form method="POST" action="../view/Login/login.php">
+      <label for="email">Correo electrónico:</label><br>
+      <input
+        type="email"
+        id="email"
+        name="email"
+        required
+      /><br /><br />
+
+      <label for="password">Contraseña:</label><br>
+      <input
+        type="password"
+        id="password"
+        name="password"
+        required
+      /><br /><br />
+
+      <button type="submit">Acceder</button>
+       <p style="margin-top: 15px;">
+      ¿No tienes cuenta?
+      <a href="registro.html">Regístrate aquí</a>
+    </p>
+    </form>
+  </main>
+
+  <footer style="margin-top: 40px; padding: 20px;
+                 background-color: #0f1c2f; color: #fff;
+                 text-align: center; border-radius: 8px;">
+    <p><strong>O también puedes escribirnos a:</strong></p>
+    <p>Email: <a href="mailto:soporte@luminuscreacode.com"
+                 style="color: #00b3ff;">
+                 soporte@luminuscreacode.com
+             </a>
+    </p>
+    <p>Teléfono: <a href="tel:+529991410909"
+                   style="color: #00b3ff;">
+                   +52 9991410909
+                 </a>
+    </p>
+    <p>Dirección: Mérida, Yucatán, México</p>
+  </footer>
+
+  <script>
+    // Al cargar la página, lee ?error=… y lo muestra en #errorMsg
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('error');
+    if (error) {
+      document.getElementById('errorMsg').textContent =
+        decodeURIComponent(error);
+    }
+  </script>
+</body>
+</html>
+

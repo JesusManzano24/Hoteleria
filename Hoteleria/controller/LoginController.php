@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/LoginUsuario.php';
+require_once   '../models/LoginUsuario.php';
 
 class LoginController
 {
@@ -9,7 +9,7 @@ class LoginController
 
         // Solo aceptamos POST
         if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
-            header('Location: /views/login.html');
+            header('Location: ../view/Login/login.html');
             exit;
         }
 
@@ -18,14 +18,14 @@ class LoginController
         $password = trim($_POST['password'] ?? '');
         if ($email === '' || $password === '') {
             $msg = 'Debes ingresar correo y contraseña.';
-            header('Location: /html/login.html?error=' . urlencode($msg));
+            header('Location: ../view/Login/login.html?error=' . urlencode($msg));
             exit;
         }
 
         // 2) Autenticación con el modelo
         $res = LoginUsuario::autenticar($email, $password);
         if (! $res['success']) {
-            header('Location: /html/login.html?error=' . urlencode($res['error']));
+            header('Location: ../view/Login/login.html?error=' . urlencode($res['error']));
             exit;
         }
 
