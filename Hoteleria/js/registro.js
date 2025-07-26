@@ -102,7 +102,7 @@
 
           const formData = new FormData(this);
 
-          fetch('../php/registrar_usuario.php', {
+          fetch('../view/Registro/login_admin.php', {
             method: 'POST',
             body: formData
           })
@@ -150,7 +150,7 @@
             return;
           }
 
-          fetch('../php/login_admin.php', {
+          fetch('../view/Registro/login_admin.php', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json'

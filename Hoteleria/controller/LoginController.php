@@ -18,14 +18,14 @@ class LoginController
         $password = trim($_POST['password'] ?? '');
         if ($email === '' || $password === '') {
             $msg = 'Debes ingresar correo y contraseña.';
-            header('Location: ../view/Login/login.html?error=' . urlencode($msg));
+            header('Location: /Login/login.html?error=' . urlencode($msg));
             exit;
         }
 
         // 2) Autenticación con el modelo
         $res = LoginUsuario::autenticar($email, $password);
         if (! $res['success']) {
-            header('Location: ../view/Login/login.html?error=' . urlencode($res['error']));
+            header('Location: /Login/login.html?error=' . urlencode($res['error']));
             exit;
         }
 
@@ -35,14 +35,14 @@ class LoginController
 
         switch ($_SESSION['user_role']) {
             case 2:
-                header('Location: ../html/crud_alojamientos.html');
+                header('Location: /crudalojamientos/crud_alojamientos.html');
                 break;
             case 3:
-                header('Location: ../html/alojamientos.html');
+                header('Location: /alojamientos/alojamientos.html');
                 break;
             default:
                 $msg = 'Rol no autorizado.';
-                header('Location: ../html/login.html?error=' . urlencode($msg));
+                header('Location: /Login/login.html?error=' . urlencode($msg));
                 break;
         }
         exit;
