@@ -1,6 +1,7 @@
 <?php
 header('Content-Type: application/json');
-include '../db.php';
+require_once('../../../ws/conexion.php');
+$conn = conectar(); // ✅ Esto te da una instancia de PDO
 
 $sql = "SELECT 
     a.direccion,
@@ -18,7 +19,9 @@ $result = $conn->query($sql);
 $zonas = [];
 $colores = ['#e6194b','#3cb44b','#ffe119','#4363d8','#f58231','#911eb4','#46f0f0','#f032e6'];
 
-while ($row = $result->fetch_assoc()) {
+$stmt = $conn->query($sql);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
     $zona = $row['direccion'];
     $mes = (int)$row['mes'];
     $total = (int)$row['total_reservas_efectivas'];

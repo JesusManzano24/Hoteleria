@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
-include '../db.php';
+require_once('../../../ws/conexion.php');
+$conn = conectar(); // ✅ Esto te da una instancia de PDO
+
 
 $sql = "SELECT 
     DAYNAME(re.fecha_resena) AS dia_semana,
@@ -22,7 +24,9 @@ $diasMap = ['Monday'=>1,'Tuesday'=>2,'Wednesday'=>3,'Thursday'=>4,'Friday'=>5,'S
 
 $data = [];
 
-while ($row = $result->fetch_assoc()) {
+$stmt = $conn->query($sql);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
     $data[] = [
         'dia' => $diasMap[$row['dia_semana']] ?? 0,
         'servicios' => $row['servicios'],

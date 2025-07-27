@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
-include '../db.php';
+require_once('../../../ws/conexion.php');
+$conn = conectar(); // ✅ Esto te da una instancia de PDO
+
 
 $sql = "SELECT 
     u.genero,
@@ -18,7 +20,9 @@ $result = $conn->query($sql);
 $labels = [];
 $valores = [];
 
-while ($row = $result->fetch_assoc()) {
+$stmt = $conn->query($sql);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
     $label = "{$row['genero']} | {$row['origen']} | " . substr($row['fecha_nac'], 0, 4);
     $labels[] = $label;
     $valores[] = (int)$row['veces_compartido'];

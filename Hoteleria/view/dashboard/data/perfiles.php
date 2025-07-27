@@ -1,6 +1,8 @@
 <?php
 header('Content-Type: application/json');
-include '../Hoteleria/ws/conexion.php';
+require_once('../../../ws/conexion.php');
+$conn = conectar(); // ✅ Esto te da una instancia de PDO
+
 
 $sql = "SELECT 
     u.id_usuario,
@@ -26,7 +28,9 @@ ORDER BY servicios_promedio DESC";
 $result = $conn->query($sql);
 $data = [];
 
-while ($row = $result->fetch_assoc()) {
+$stmt = $conn->query($sql);
+while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
     $data[] = [
         'genero' => $row['genero'],
         'origen' => $row['origen'],
