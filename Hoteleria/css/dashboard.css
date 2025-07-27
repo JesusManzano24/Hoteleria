@@ -1,0 +1,22 @@
+body {
+  font-family: sans-serif;
+  padding: 2rem;
+  background: #f9f9f9;
+}
+h1 {
+  text-align: center;
+}
+section {
+  margin-bottom: 4rem;
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+canvas {
+  width: 100% !important;
+  max-width: 900px;
+  height: 400px !important;
+  margin: auto;
+  display: block;
+}

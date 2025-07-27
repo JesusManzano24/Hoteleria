@@ -1,6 +1,7 @@
 <?php
 // view/Registro/login_admin.php
+require_once __DIR__ . '/../../controller/LoginAdminController.php';
 
-require_once '../../controller/LoginAdminController.php';
+// ... resto del código
 
 LoginAdminController::login();

@@ -51,38 +51,41 @@
       <p><strong>Destinatarios del formulario:</strong></p>
       <p>✉️ Principal: 9991404825j@gmail.com</p>
       <p>📋 Copia: krnrodea@gmail.com</p>
-      <p>📋 Copia: randyandreuquijanosilva@gmail.com</p>
+      <p>📋 Copia: ran_di_001@hotmail.com</p>
     </div>
   </footer>
 
   <script>
     document.getElementById('contactForm').addEventListener('submit', function(event) {
-      event.preventDefault();
-      
-      // Obtener valores del formulario
-      const nombre = document.getElementById('nombre').value;
-      const correo = document.getElementById('correo').value;
-      const mensaje = document.getElementById('mensaje').value;
-      
-      // Construir cuerpo del correo
-      const cuerpoCorreo = `Nombre: ${nombre}%0D%0ACorreo: ${correo}%0D%0A%0D%0AMensaje:%0D%0A${mensaje}`;
-      
-      // Direcciones de correo
-      const destinatarioPrincipal = '9991404825j@gmail.com';
-      const copia1 = 'krnrodea@gmail.com';
-      const copia2 = 'randyandreuquijanosilva@gmail.com';
-      
-      // Crear enlace mailto con CC
-      const mailtoLink = `mailto:${destinatarioPrincipal}?cc=${copia1},${copia2}&subject=Contacto desde LuminusCrea Booking&body=${cuerpoCorreo}`;
-      
-      // Mostrar mensaje de confirmación
-      document.getElementById('confirmation').style.display = 'block';
-      
-      // Abrir cliente de correo después de un pequeño retraso
-      setTimeout(function() {
-        window.location.href = mailtoLink;
-      }, 1000);
-    });
+  event.preventDefault();
+
+  // Obtener valores del formulario
+  const nombre = document.getElementById('nombre').value;
+  const correo = document.getElementById('correo').value;
+  const mensaje = document.getElementById('mensaje').value;
+
+  // Construir cuerpo del correo
+  const cuerpoCorreo = `Nombre: ${nombre}%0D%0ACorreo: ${correo}%0D%0A%0D%0AMensaje:%0D%0A${mensaje}`;
+
+  // Direcciones de correo
+  const destinatarioPrincipal = '9991404825j@gmail.com';
+  const copia1 = 'krnrodea@gmail.com';
+  const copia2 = 'ran_di_001@hotmail.com';
+
+  // Crear enlace mailto con CC
+  const mailtoLink = `mailto:${destinatarioPrincipal}?cc=${copia1},${copia2}&subject=Contacto desde LuminusCrea Booking&body=${cuerpoCorreo}`;
+
+  // Limpiar campos del formulario 🧹
+  document.getElementById('contactForm').reset();
+
+  // Mostrar mensaje de confirmación
+  document.getElementById('confirmation').style.display = 'block';
+
+  // Abrir cliente de correo después de un pequeño retraso
+  setTimeout(function() {
+    window.location.href = mailtoLink;
+  }, 1000);
+});
   </script>
 </body>
 </html>

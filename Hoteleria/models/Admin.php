@@ -1,6 +1,6 @@
 <?php
 // models/Admin.php
-require_once  '/../ws/conexion.php';
+require_once  '../ws/conexion.php';
 
 class Admin
 {

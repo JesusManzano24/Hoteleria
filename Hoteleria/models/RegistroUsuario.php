@@ -1,13 +1,14 @@
 <?php
-require_once dirname(__DIR__) . '/ws/conexion.php';
+// models/RegistroUsuario.php
+require_once '../ws/conexion.php';
 
 class RegistroUsuario
 {
-    public static function crear(array $data): array
+    public static function crear(array $data): array  // Eliminamos el parámetro $files
     {
         $conn = conectar();
 
-        // Mapeo seguro usando $data en lugar de $datos
+        // Mapeo seguro
         $tipo           = $data['tipo']           ?? '';
         $nombre         = $data['nombre']         ?? '';
         $correo         = $data['correo']         ?? '';
@@ -23,9 +24,7 @@ class RegistroUsuario
             return ['success' => false, 'error' => 'Faltan campos obligatorios'];
         }
 
-        // … el resto de tu lógica (roles, hash, verificación y INSERT)
-    
-
+        // Mapeo de roles
         switch ($tipo) {
             case 'Admin':     $id_rol = 1; break;
             case 'anfitrion': $id_rol = 2; break;
@@ -47,11 +46,22 @@ class RegistroUsuario
         }
         $stmt->close();
 
-        // Insertar nuevo usuario
+        // Insertar nuevo usuario SIN foto de perfil
         $stmt = $conn->prepare('INSERT INTO usuarios (id_rol, nombre, correo, telefono, contraseña, genero, origen, fecha_nac, fecha_registro) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
         if (!$stmt) return ['success' => false, 'error' => 'SQL prepare falló (INSERT): ' . $conn->error];
 
-        $stmt->bind_param('issssssss', $id_rol, $nombre, $correo, $telefono, $password_hash, $genero, $origen, $fecha_nac, $fecha_registro);
+        $stmt->bind_param(
+            'issssssss', 
+            $id_rol, 
+            $nombre, 
+            $correo, 
+            $telefono, 
+            $password_hash, 
+            $genero, 
+            $origen, 
+            $fecha_nac, 
+            $fecha_registro
+        );
 
         if (!$stmt->execute()) {
             $error = $stmt->error;

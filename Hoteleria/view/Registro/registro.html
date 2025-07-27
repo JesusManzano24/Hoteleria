@@ -26,7 +26,7 @@
   <main>
     <div id="registroFormContainer">
       <h2>Crear una cuenta</h2>
-      <form id="registroForm">
+      <form id="registroForm" enctype="multipart/form-data">
         <label for="tipo_usuario">Tipo de usuario:</label>
        <select name="tipo" id="tipo_usuario">
   <option value="">Selecciona el Tipo de usuario</option>
@@ -52,14 +52,6 @@
 
         <label for="telefono">Teléfono:</label>
         <input type="tel" id="telefono" name="telefono" required /><br />
-
-        <label for="foto_perfil">Foto de perfil:</label>
-        <input
-          type="file"
-          id="foto_perfil"
-          name="foto_perfil"
-          accept="image/*"
-        /><br />
 
         <label for="genero">Género:</label>
         <select name="genero" id="genero">
@@ -117,7 +109,8 @@
     <p>Dirección: Mérida, Yucatán, México</p>
   </footer>
 
-  <script src="../../js/registro.js"></script>
+<!-- Al final del body -->
+<script src="../../js/registro.js"></script>
   <!-- Ruta corregida: sube un nivel y busca login_admin.js en la carpeta js -->
 </body>
 </html>
