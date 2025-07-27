@@ -1,5 +1,5 @@
 // Carga los datos de los archivos PHP
-fetch("/view/dashboard/data/cancelaciones.php")
+fetch("data/cancelaciones.php")
   .then((res) => res.json())
   .then((data) => crearCancelaciones(data));
 

@@ -1,38 +1,65 @@
 <?php
-header('Content-Type: application/json');
-include '../../ws/conexion.php';
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+require_once('../../../ws/conexion.php');
 
+$sql = "
+SELECT 
+    MONTH(r.fecha_reserva) AS mes,
+    r.metodo_pago,
+    a.tipo,
+    COUNT(*) AS total
+FROM reservas r
+JOIN alojamientos a ON r.id_alojamiento = a.id_alojamiento
+JOIN estado_reserva e ON r.id_estado_reserva = e.id_estado_reserva
+WHERE e.nombre_estado = 'Cancelada'
+GROUP BY mes, r.metodo_pago, a.tipo
+ORDER BY mes;
+";
 
-$sql = "SELECT 
-    MONTH(r.fecha_inicio) as mes, 
-    a.tipo_alojamiento, 
-    r.metodo_pago, 
-    COUNT(*) as total 
-FROM reservas r 
-JOIN alojamientos a ON r.id_alojamiento = a.id_alojamiento 
-WHERE r.estado = 'Cancelada' 
-GROUP BY mes, tipo_alojamiento, metodo_pago";
+$result = $conn->query($sql);
+if (!$result) {
+    die("Error en consulta: " . $conn->error);
+}
 
-$res = $conn->query($sql);
 $data = [];
+$tipos = [];
+$metodos = [];
 
-while ($row = $res->fetch_assoc()) {
-    $key = $row['tipo_alojamiento'] . ' - ' . $row['metodo_pago'];
-    $data[$key][(int)$row['mes']] = (int)$row['total'];
+while ($row = $result->fetch_assoc()) {
+    $mes = (int)$row['mes'];
+    $tipo = $row['tipo'];
+    $metodo = $row['metodo_pago'];
+    $total = (int)$row['total'];
+
+    $tipos[$tipo] = true;
+    $metodos[$metodo] = true;
+    $data[$tipo][$metodo][$mes] = $total;
 }
 
-$meses = range(1, 12);
-$datasets = [];
+$response = [
+    "meses" => array_map(fn($i) => "Mes $i", range(1, 12)),
+    "datasets" => []
+];
 
-foreach ($data as $label => $mesesData) {
-    $datasets[] = [
-        'label' => $label,
-        'data' => array_map(fn($m) => $mesesData[$m] ?? 0, $meses),
-        'backgroundColor' => sprintf('#%06X', mt_rand(0, 0xFFFFFF)),
-    ];
+$colores = ['#2196F3', '#E91E63', '#FF9800', '#4CAF50', '#9C27B0', '#795548'];
+$colorIndex = 0;
+
+foreach ($data as $tipo => $metodosData) {
+    foreach ($metodosData as $metodo => $valores) {
+        $dataset = [
+            "label" => "$tipo / $metodo",
+            "data" => [],
+            "backgroundColor" => $colores[$colorIndex++ % count($colores)]
+        ];
+
+        for ($m = 1; $m <= 12; $m++) {
+            $dataset['data'][] = $valores[$m] ?? 0;
+        }
+
+        $response["datasets"][] = $dataset;
+    }
 }
 
-echo json_encode([
-    'meses' => $meses,
-    'datasets' => $datasets
-]);
+header('Content-Type: application/json');
+echo json_encode($response);
