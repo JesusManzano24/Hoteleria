@@ -2,38 +2,30 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
-  <title>Hoteles disponibles</title>
+  <title>Panel Anfitrión</title>
     <link rel="stylesheet" href="../../css/styles.css" />
    <link rel="stylesheet" href="../../css/footer.css" />
 </head>
 <body>
   <header>
     <img src="../img/logoprueba.png" alt="Logo de LuminusCreaCode" width="100" />
-    <h1>Bienvenido a LuminusCrea Booking</h1>
-    <nav>
-      <a href="hoteles.html">Explorar</a>
-      <a href="contacto.html">Contacto</a>
-      <a href="registro.html">Registrarse</a>
-      <a href="login.html">Iniciar Sesión</a>
+    <h2>Panel del Anfitrión</h2>
+   <nav>
+      <a href="../../view/Panelanfi/crear_alojamientos.html">Crear Alojamientos</a>
+      <a href="../../view/Panelanfi/eliminar_alojamientos.html">Eliminar Alojamiento</a>
+      <a href="../../view/Panelanfi/actualizar_alojamientos.html">Actualizar Alojamientos</a>
+      <a href="../../view/Panelanfi/buscar_alojamientos.html">Buscar Alojamientos</a>
     </nav>
   </header>
 
   <main>
-    <section class="buscador">
-      <input type="text" placeholder="Buscar por ubicación..." />
+    <section>
+      <h3>Mis Alojamientos</h3>
+      <button>Agregar nuevo hotel</button>
+      <ul>
+        <li>Hotel Playa Coral - Editar / Eliminar</li>
+      </ul>
     </section>
-
-    <section class="listado">
-  <article class="hotel">
-    <img src="../img/logoprueba.png" alt="Hotel Playa Coral" style="width: 100%; border-radius: 8px; margin-bottom: 10px;" />
-    <h3>Hotel Playa Coral</h3>
-    <p><strong>Zona:</strong> Frente al mar, Zona Costera</p>
-    <p><strong>Precio:</strong> Desde $1,200 MXN por noche</p>
-    <a href="detalle.html?id=1">Ver más</a>
-  </article>
-
-  <!-- Puedes agregar más hoteles con esta misma estructura -->
-</section>
   </main>
 </body>
 <footer class="site-footer">
